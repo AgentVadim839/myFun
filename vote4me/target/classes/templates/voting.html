@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Голосування</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="text"], input[type="radio"] {
+            padding: 10px;
+            font-size: 1rem;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        label {
+            font-size: 1rem;
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3>Голосування</h3>
+
+    <form th:action="@{/processVote}" th:object="${voter}" method="POST">
+        <div>
+            <label for="firstName">Ваше ім'я:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" required />
+        </div>
+
+        <div>
+            <label for="lastName">Ваше прізвище:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" required />
+        </div>
+
+        <div>
+            <label>Оберіть кандидата:</label>
+            <div th:each="tempChoice : ${choices}">
+                <input type="radio" th:field="*{choice}" th:value="${tempChoice}" required />
+                <label th:text="${tempChoice}"></label>
+                <br>
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" class="submit-btn" value="Проголосувати" />
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
